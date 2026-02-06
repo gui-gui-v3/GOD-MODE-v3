@@ -1,0 +1,74 @@
+--[[
+    🚀 09810J ULTIMATE [NO-KEY EDITION]
+    🔓 TRẠNG THÁI: Đã mở khóa Premium (VIP)
+    🇻🇳 TÍNH NĂNG: Di chuyển tự do (Draggable) Menu & Nút Toggle
+]]--
+
+local v0=game:GetService("Players");local v1=game:GetService("RunService");local v2=game:GetService("ProximityPromptService");local v3=game:GetService("UserInputService");local v4=v0.LocalPlayer;local v5=v4:WaitForChild("PlayerGui");
+
+-- Dọn dẹp bản cũ nếu đang chạy
+if v5:FindFirstChild("09810jFlyGUI") then v5.09810jFlyGUI:Destroy() end
+if v5:FindFirstChild("Toggle_09810j") then v5.Toggle_09810j:Destroy() end
+
+local v6="HungDao9999_Settings_v1";
+local function v7(v142) pcall(function() writefile(v6,tostring(v142)) end) end
+local function v8() local v145,v146=pcall(function() return readfile(v6) end); if v145 and v146 then return tonumber(v146) or 500 end; return 500 end
+
+local v9=v8();local v10={Vector3.new(147,3.38,-138),Vector3.new(2588,3,-138.4),Vector3.new(2588.35,3,-676.66)};local v11=5;local v12=false;local v13,v14,v15,v16,v17;
+local function v18() local v148=v4.Character or v4.CharacterAdded:Wait(); return v148,v148:WaitForChild("HumanoidRootPart"),v148:WaitForChild("Humanoid") end
+local function v19(v149,v150,v151) local v153=v151-v150;local v154=v149-v150;local v155=v153.Magnitude^2;if v155==0 then return v150 end;local v156=math.clamp(v154:Dot(v153)/v155,0,1);return v150+(v153*v156) end
+local function v20(v158) local v160=Vector3.new(147,3,-138);local v161=Vector3.new(2635,3,-136.4);local v162=v19(v158,v160,v161);return {v162,v160} end
+local function v21() if v15 then v15:Disconnect() end local function v164() pcall(function() for _,v in pairs(workspace:GetDescendants()) do if v:IsA("BasePart") or v:IsA("Model") then local n=v.Name:lower();if n:find("vip") or n:find("robux") or n:find("premium") then v:Destroy() end end end end) end; v164();v15=v1.Heartbeat:Connect(function() if (tick()%60)<0.1 then v164() end end) end
+local function v22() if v16 then v16:Disconnect() end task.spawn(function() while v12 or v16 do pcall(function() for _,gui in pairs(v5:GetChildren()) do if gui:IsA("ScreenGui") and not gui.Name:find("HungDao") then for _,d in pairs(gui:GetDescendants()) do if (d:IsA("TextLabel") or d:IsA("TextButton")) and (d.Text:lower():find("robux") or d.Text:lower():find("vip")) then gui:Destroy() break end end end end end) task.wait(0.5) end end) end
+local function v23(v166) if v14 then v14:Disconnect() end v14=v1.Stepped:Connect(function() if not v12 then return end for _,p in pairs(v166:GetDescendants()) do if p:IsA("BasePart") then p.CanCollide=false;p.Massless=true end end end) end
+local function v24(v168) if v14 then v14:Disconnect();v14=nil end task.wait(0.1);for _,p in pairs(v168:GetDescendants()) do if p:IsA("BasePart") then p.CanCollide=(p.Name~="HumanoidRootPart");p.Massless=false end end end
+local function v25(v169,v170) local v172=tick();local v174=false;if v13 then v13:Disconnect() end v13=v1.Heartbeat:Connect(function(dt) if not v12 or not v169 or not v169.Parent then v13:Disconnect() return end local p=v169.Position;local d=(v170-p).Magnitude;if d<=v11 then v169.CFrame=CFrame.new(v170);v174=true;v13:Disconnect() return end local move=math.min(v9*dt,d);v169.CFrame=CFrame.new(p+(v170-p).Unit*move) end);while not v174 and v12 do if (tick()-v172)>120 then break end task.wait() end return v174 end
+local function v28() if v17 then v17:Disconnect() end v17=v2.PromptShown:Connect(function(p) if v12 then p.HoldDuration=0;p.MaxActivationDistance=20 end end) end
+local function v30() v12=false;if v13 then v13:Disconnect();v13=nil end local char,root,hum=v18();v24(char);workspace.Gravity=196;hum.PlatformStand=false;root.Anchored=false;root.Velocity=Vector3.new(0,0,0) end
+local function v31(path,name) local char,root,hum=v18();v23(char);v22();v21();v28();hum.PlatformStand=true;workspace.Gravity=0;for i,p in ipairs(path) do if not v12 then break end v25(root,p) end v30() end
+
+-- [ MAIN GUI - DRAGGABLE ]
+local v32=Instance.new("ScreenGui",v5);v32.Name="HungDaoFlyGUI";v32.ResetOnSpawn=false
+local v35=Instance.new("Frame",v32);v35.Size=UDim2.fromOffset(250,170);v35.Position=UDim2.new(0.5,-125,0.4,-85);v35.BackgroundColor3=Color3.fromRGB(15,15,15);v35.Active=true;v35.Draggable=true
+local v42=Instance.new("UICorner",v35);v42.CornerRadius=UDim.new(0,15)
+local v44=Instance.new("UIStroke",v35);v44.Color=Color3.fromRGB(255,215,0);v44.Thickness=2 -- Viền vàng Gold sang chảnh
+local v47=Instance.new("TextLabel",v35);v47.Size=UDim2.new(1,0,0.25,0);v47.Text="09810J - NO KEY 🇻🇳";v47.TextColor3=Color3.new(1,1,1);v47.BackgroundTransparency=1;v47.Font=Enum.Font.GothamBold;v47.TextSize=18
+local v56=Instance.new("TextLabel",v35);v56.Size=UDim2.new(1,0,0.2,0);v56.Position=UDim2.new(0,0,0.25,0);v56.Text="Speed: "..v9;v56.TextColor3=Color3.new(0.9,0.9,0.9);v56.BackgroundTransparency=1
+
+-- Slider Speed
+local v65=Instance.new("Frame",v35);v65.Size=UDim2.new(0.8,0,0.08,0);v65.Position=UDim2.new(0.1,0,0.5,0);v65.BackgroundColor3=Color3.fromRGB(45,45,45)
+local v72=Instance.new("Frame",v65);v72.Size=UDim2.new(v9/500,0,1,0);v72.BackgroundColor3=Color3.fromRGB(255,215,0)
+local v79=Instance.new("TextButton",v65);v79.Size=UDim2.new(0,16,0,16);v79.Position=UDim2.new(v9/500, -8,-0.3,0);v79.Text="";v79.BackgroundColor3=Color3.new(1,1,1)
+Instance.new("UICorner",v79).CornerRadius=UDim.new(1,0)
+
+local dragging=false;v79.MouseButton1Down:Connect(function() dragging=true end)
+v3.InputEnded:Connect(function(input) if input.UserInputType==Enum.UserInputType.MouseButton1 then dragging=false end end)
+v1.RenderStepped:Connect(function() if dragging then local mousePos=v3:GetMouseLocation().X;local relPos=math.clamp((mousePos-v65.AbsolutePosition.X)/v65.AbsoluteSize.X,0,1);v9=math.floor(relPos*500);v79.Position=UDim2.new(relPos,-8,-0.3,0);v72.Size=UDim2.new(relPos,0,1,0);v56.Text="Speed: "..v9;v7(v9) end end)
+
+-- Buttons DI / VE
+local function createBtn(text, pos, color)
+    local b = Instance.new("TextButton", v35); b.Size = UDim2.new(0.4, 0, 0.22, 0); b.Position = pos; b.Text = text;
+    b.BackgroundColor3 = color; b.TextColor3 = Color3.new(1,1,1); b.Font = Enum.Font.GothamBold;
+    Instance.new("UICorner", b).CornerRadius = UDim.new(0, 8); return b
+end
+local btnDi = createBtn("DI", UDim2.new(0.08, 0, 0.72, 0), Color3.fromRGB(0, 150, 0))
+local btnVe = createBtn("VE", UDim2.new(0.52, 0, 0.72, 0), Color3.fromRGB(150, 0, 0))
+btnDi.MouseButton1Click:Connect(function() v12=true; task.spawn(function() v31(v10,"GO") end) end)
+btnVe.MouseButton1Click:Connect(function() if v12 then v30() return end v12=true; local _,root=v18(); task.spawn(function() v31(v20(root.Position),"BACK") end) end)
+
+-- ==========================================
+-- 🇻🇳 TOGGLE BUTTON (DRAGGABLE)
+-- ==========================================
+local ToggleGui = Instance.new("ScreenGui", v5); ToggleGui.Name = "Toggle_09810j"
+local TogBtn = Instance.new("TextButton", ToggleGui)
+TogBtn.Size = UDim2.fromOffset(55, 55); TogBtn.Position = UDim2.new(0.02, 0, 0.45, 0)
+TogBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 30); TogBtn.Text = "🇻🇳"; TogBtn.TextSize = 35
+TogBtn.Active = true; TogBtn.Draggable = true -- Bật di chuyển cho nút cờ
+local corner = Instance.new("UICorner", TogBtn); corner.CornerRadius = UDim.new(1, 0) -- Nút hình tròn
+local stroke = Instance.new("UIStroke", TogBtn); stroke.Color = Color3.fromRGB(255, 0, 0); stroke.Thickness = 2.5
+
+TogBtn.MouseButton1Click:Connect(function()
+    v35.Visible = not v35.Visible
+end)
+
+print("✅ SCRIPT 09810J ĐÃ CHẠY! KHÔNG CẦN KEY. NHẤN 🇻🇳 ĐỂ ĐÓNG/MỞ.")
