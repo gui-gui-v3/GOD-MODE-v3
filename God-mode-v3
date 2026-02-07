@@ -1,0 +1,174 @@
+--[[ 
+
+    VN PREMIUM V3 - SUPREME GOD MODE
+
+    - Cơ chế: Damage Cancellation & Physics Bypass
+
+    - Đặc trị: Sóng thần, Laser, Kill-Parts, Server-Side Death
+
+    - Key: 09810j vip premium
+
+]]
+
+local Player = game:GetService("Players").LocalPlayer
+
+local RunService = game:GetService("RunService")
+
+local CoreGui = game:GetService("CoreGui")
+
+-- Xóa menu cũ nếu có
+
+if CoreGui:FindFirstChild("VN_V3_God") then CoreGui.VN_V31_God:Destroy() end
+
+local ScreenGui = Instance.new("ScreenGui", CoreGui)
+
+ScreenGui.Name = "VN_V31_God"
+
+local Main = Instance.new("Frame", ScreenGui)
+
+Main.Size = UDim2.new(0, 200, 0, 80)
+
+Main.Position = UDim2.new(0.5, -100, 0.4, 0)
+
+Main.BackgroundColor3 = Color3.fromRGB(40, 0, 80) -- Màu tím quyền lực
+
+Main.Active = true
+
+Main.Draggable = true
+
+Instance.new("UICorner", Main)
+
+local Btn = Instance.new("TextButton", Main)
+
+Btn.Size = UDim2.new(1, -20, 1, -20)
+
+Btn.Position = UDim2.new(0, 10, 0, 10)
+
+Btn.Text = "KÍCH HOẠT GOD MODE V3 🛡️"
+
+Btn.BackgroundColor3 = Color3.fromRGB(60, 0, 120)
+
+Btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+
+Btn.Font = Enum.Font.GothamBold
+
+Btn.TextSize = 14
+
+Instance.new("UICorner", Btn)
+
+local isGod = false
+
+-- HÀM TỐI ƯU HÓA NHÂN VẬT (CHỐNG CHẾT)
+
+local function ApplySupremeGod()
+
+    local char = Player.Character
+
+    if not char then return end
+
+    
+
+    local hum = char:FindFirstChildOfClass("Humanoid")
+
+    if hum then
+
+        -- Cách 1: Chống mọi trạng thái chết
+
+        hum:SetStateEnabled(Enum.HumanoidStateType.Dead, false)
+
+        hum:ChangeState(Enum.HumanoidStateType.Running)
+
+        hum.MaxHealth = math.huge
+
+        hum.Health = math.huge
+
+    end
+
+    
+
+    -- Cách 2: Xóa bỏ khả năng va chạm với nước/laser gây sát thương
+
+    for _, part in pairs(char:GetDescendants()) do
+
+        if part:IsA("BasePart") then
+
+            part.CanTouch = false -- Sóng thần sẽ không thể "chạm" vào bạn để gửi lệnh sát thương
+
+        end
+
+    end
+
+end
+
+RunService.Heartbeat:Connect(function()
+
+    if isGod then
+
+        local char = Player.Character
+
+        local hum = char and char:FindFirstChildOfClass("Humanoid")
+
+        
+
+        if hum then
+
+            -- Liên tục hồi máu và giữ trạng thái sống
+
+            if hum.Health <= 0 or hum:GetState() == Enum.HumanoidStateType.Dead then
+
+                hum:ChangeState(Enum.HumanoidStateType.Running)
+
+                hum.Health = 100
+
+            end
+
+        end
+
+    end
+
+end)
+
+Btn.MouseButton1Click:Connect(function()
+
+    isGod = not isGod
+
+    if isGod then
+
+        Btn.Text = "GOD MODE: ĐANG BẬT ✅"
+
+        Btn.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
+
+        ApplySupremeGod()
+
+    else
+
+        Btn.Text = "KÍCH HOẠT GOD MODE V3 🛡️"
+
+        Btn.BackgroundColor3 = Color3.fromRGB(60, 0, 120)
+
+        -- Trả lại trạng thái bình thường nếu cần
+
+        local hum = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
+
+        if hum then hum:SetStateEnabled(Enum.HumanoidStateType.Dead, true) end
+
+    end
+
+end)
+
+-- Tự động bật lại khi hồi sinh
+
+Player.CharacterAdded:Connect(function()
+
+    if isGod then
+
+        task.wait(1)
+
+        ApplySupremeGod()
+
+    end
+
+end)
+
+print("VN PREMIUM V31 LOADED | Key: 09810j vip premium")
+
